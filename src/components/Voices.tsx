@@ -4,6 +4,7 @@ import Link from 'next/link';
 import OutlineIcon from './OutlineIcon';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+import { asset } from '../lib/asset';
 // قصص ناجيات + ناجية مبدعة · ناجية منتجة in one section: the stories are told
 // through what survivors make and say. Both clips come from the client's own
 // material; the quote is transcribed from the speaker in the first clip, and
@@ -123,7 +124,7 @@ export function VoicesPreview() {
                   transition: `opacity 0.6s ease ${250 + i * 120}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${250 + i * 120}ms`,
                 }}
               >
-                <img src={v.poster} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={asset(v.poster)} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <span className="absolute inset-0 bg-gradient-to-t from-dark/85 via-transparent to-transparent" />
                 <PlayBadge />
                 <span className="absolute bottom-3 right-3 left-3 text-white">
@@ -186,8 +187,8 @@ export default function Voices() {
               style={{ transitionDelay: `${i * 120}ms` }}
             >
               <video
-                src={v.src}
-                poster={v.poster}
+                src={asset(v.src)}
+                poster={asset(v.poster)}
                 controls
                 playsInline
                 preload="none"

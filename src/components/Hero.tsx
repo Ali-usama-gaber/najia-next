@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import NajiaMark from './NajiaMark';
 
+import { asset } from '../lib/asset';
 const stats = [
   { num: '~٣٠٠', label: 'عضوة أساسية' },
   { num: '٩٠٠+', label: 'مستفيد حضوريًا' },
@@ -250,7 +251,7 @@ export default function Hero() {
           {/* Founder credit */}
           <div className={`flex items-center gap-3 transition-all duration-800 ${show(4)}`}>
             <img
-              src="/founder.jpg"
+              src={asset('/founder.jpg')}
               alt="أ.د. أطلال أبوسند"
               className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-md shadow-purple-200/50 flex-shrink-0"
             />

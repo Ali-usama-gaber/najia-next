@@ -6,6 +6,7 @@ import OutlineIcon from './OutlineIcon';
 import { timelineEvents, type TimelineEvent } from './Timeline';
 import { eventForTitle, type NajiaEvent } from '../data/events';
 
+import { asset } from '../lib/asset';
 // Scroll-pinned milestones: the section sticks while scrolling walks through
 // the years ٢٠١٦ → ٢٠٢٦, then the page continues normally. The full editorial
 // timeline lives on عن ناجية and عالم ناجية.
@@ -203,7 +204,7 @@ export default function EventsPreview() {
                   <div className="w-full flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-8">
                     {covered ? (
                       <img
-                        src={covered.cover}
+                        src={asset(covered.cover)}
                         alt={`غلاف ${covered.title}`}
                         loading="lazy"
                         className="hidden lg:block w-44 h-32 rounded-2xl object-cover ring-1 ring-black/5 shadow-md flex-shrink-0"
@@ -214,7 +215,7 @@ export default function EventsPreview() {
                         aria-hidden="true"
                         className={`hidden lg:flex w-44 h-32 rounded-2xl shadow-sm flex-shrink-0 items-center justify-center ${tile.bg} ${tile.fg}`}
                       >
-                        <img src="/logo-mark.svg" alt="" className="h-24 w-auto" />
+                        <img src={asset('/logo-mark.svg')} alt="" className="h-24 w-auto" />
                       </div>
                     )}
                     <div className="flex-shrink-0 flex lg:block items-center gap-4 text-right">

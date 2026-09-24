@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { asset } from '../lib/asset';
 const logo = '/logo.svg';
 
 const columns = [
@@ -67,7 +68,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 overflow-hidden">
-                <img src={logo} alt="شعار ناجية" className="w-full h-full object-contain" />
+                <img src={asset(logo)} alt="شعار ناجية" className="w-full h-full object-contain" />
               </div>
               <div>
                 <div className="text-gold-400 font-extrabold text-xl leading-none">ناجية</div>

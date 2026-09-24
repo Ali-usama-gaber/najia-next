@@ -2,6 +2,7 @@
 
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+import { asset } from '../lib/asset';
 export default function Founder() {
   const { ref, visible } = useScrollReveal(0.15);
 
@@ -14,7 +15,7 @@ export default function Founder() {
         >
           {/* Portrait */}
           <img
-            src="/founder.jpg"
+            src={asset('/founder.jpg')}
             alt="أ.د. أطلال أبوسند"
             className={`flex-shrink-0 w-24 h-24 rounded-full object-cover ring-4 ring-purple-100 shadow-lg shadow-purple-200/40 transition-all duration-700 ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}
           />

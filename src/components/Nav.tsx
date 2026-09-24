@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { asset } from '../lib/asset';
 const logo = '/logo.svg';
 
 const navLinks = [
@@ -46,7 +47,7 @@ export default function Nav() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
           <div className="w-11 h-11 overflow-hidden group-hover:scale-105 transition-all duration-300">
-            <img src={logo} alt="شعار ناجية" className="w-full h-full object-contain" />
+            <img src={asset(logo)} alt="شعار ناجية" className="w-full h-full object-contain" />
           </div>
           <div className="hidden sm:block leading-tight">
             <div className="text-purple-500 font-extrabold text-lg leading-none">ناجية</div>

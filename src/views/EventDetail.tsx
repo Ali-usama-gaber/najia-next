@@ -7,6 +7,7 @@ import OutlineIcon, { type IconName } from '../components/OutlineIcon';
 import { najiaEvents, type EventPhoto, type NajiaEvent, type ProgramItem } from '../data/events';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+import { asset } from '../lib/asset';
 // ── Lightbox: enlarges agenda pages and gallery photos ──
 function Lightbox({ items, index, onClose, onMove }: { items: EventPhoto[]; index: number; onClose: () => void; onMove: (i: number) => void }) {
   useEffect(() => {
@@ -29,7 +30,7 @@ function Lightbox({ items, index, onClose, onMove }: { items: EventPhoto[]; inde
     <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 sm:p-10" role="dialog" aria-modal="true" aria-label={item.caption}>
       <button type="button" aria-label="إغلاق" onClick={onClose} className="absolute inset-0 bg-dark/85 backdrop-blur-sm cursor-default" style={{ animation: 'fadeIn 0.2s ease' }} />
       <figure className="relative max-w-5xl w-full max-h-full flex flex-col items-center" style={{ animation: 'scaleIn 0.3s cubic-bezier(0.16,1,0.3,1)' }}>
-        <img key={item.src} src={item.src} alt={item.caption} className="max-h-[80vh] w-auto rounded-2xl shadow-2xl bg-white" />
+        <img key={item.src} src={asset(item.src)} alt={item.caption} className="max-h-[80vh] w-auto rounded-2xl shadow-2xl bg-white" />
         <figcaption className="text-white/90 text-sm mt-4 text-center">{item.caption}</figcaption>
       </figure>
       <button type="button" onClick={onClose} aria-label="إغلاق" className="absolute top-5 left-5 w-11 h-11 rounded-full bg-white/90 text-dark flex items-center justify-center hover:bg-white">
@@ -86,7 +87,7 @@ function Hero({ event }: { event: NajiaEvent }) {
   return (
     <header className="relative overflow-hidden bg-dark">
       {/* Soft wash of the same photo behind everything, for colour only. */}
-      <img src={hero} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-35" />
+      <img src={asset(hero)} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-35" />
       <div className="absolute inset-0 bg-gradient-to-b from-dark/70 via-dark/80 to-dark" />
 
       <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 pt-32 lg:pt-36 pb-14 lg:pb-20 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
@@ -113,7 +114,7 @@ function Hero({ event }: { event: NajiaEvent }) {
 
         <figure style={step(2)}>
           <img
-            src={hero}
+            src={asset(hero)}
             alt={`من ${event.fullTitle}`}
             className="w-full max-w-[44rem] mx-auto aspect-[16/10] object-cover rounded-[1.75rem] ring-1 ring-white/15 shadow-2xl shadow-black/40 transition-transform duration-[1600ms] ease-out"
             style={{ objectPosition: heroPosition, transform: entered ? 'scale(1)' : 'scale(1.03)' }}
@@ -223,7 +224,7 @@ function Program({ event }: { event: NajiaEvent }) {
             <div className="space-y-4 lg:sticky lg:top-28">
               {agenda.map((img, i) => (
                 <button key={img.src} type="button" onClick={() => lightbox.open(i)} className="group block w-full text-right focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/30 rounded-2xl">
-                  <img src={img.src} alt={img.caption} loading="lazy" className="w-full rounded-2xl border border-purple-100 shadow-sm group-hover:shadow-lg transition-shadow" />
+                  <img src={asset(img.src)} alt={img.caption} loading="lazy" className="w-full rounded-2xl border border-purple-100 shadow-sm group-hover:shadow-lg transition-shadow" />
                   <span className="block text-xs text-mid mt-2">{img.caption} — اضغطي للتكبير</span>
                 </button>
               ))}
@@ -258,7 +259,7 @@ function YouTubeEmbed({ id, poster, title }: { id: string; poster: string; title
       aria-label={`تشغيل: ${title}`}
       className="group relative block w-full aspect-video rounded-2xl overflow-hidden bg-black focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold-200/50"
     >
-      <img src={poster} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" />
+      <img src={asset(poster)} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" />
       <span className="absolute inset-0 flex items-center justify-center">
         <span className="w-16 h-16 rounded-full bg-white/95 text-purple-600 flex items-center justify-center shadow-xl transition-transform duration-300 group-hover:scale-110">
           <svg className="w-7 h-7 translate-x-[2px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" /></svg>
@@ -287,11 +288,11 @@ function Videos({ event }: { event: NajiaEvent }) {
               style={{ transitionDelay: `${i * 90}ms` }}
             >
               {v.youtubeId ? (
-                <YouTubeEmbed id={v.youtubeId} poster={v.poster} title={v.caption} />
+                <YouTubeEmbed id={v.youtubeId} poster={asset(v.poster)} title={v.caption} />
               ) : (
                 <video
-                  src={v.src}
-                  poster={v.poster}
+                  src={v.src && asset(v.src)}
+                  poster={asset(v.poster)}
                   controls
                   preload="none"
                   playsInline
@@ -325,7 +326,7 @@ function Photos({ event }: { event: NajiaEvent }) {
               className={`story-card group mb-5 block w-full break-inside-avoid text-right rounded-2xl overflow-hidden bg-white border border-purple-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/30 reveal-hidden ${visible ? 'reveal-visible' : ''}`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <img src={p.src} alt={p.caption} loading="lazy" className="w-full" />
+              <img src={asset(p.src)} alt={p.caption} loading="lazy" className="w-full" />
               <span className="block p-4 text-sm text-mid leading-relaxed">{p.caption}</span>
             </button>
           ))}
@@ -374,7 +375,7 @@ function PrevNext({ event }: { event: NajiaEvent }) {
   const card = (e: NajiaEvent, label: string) => (
     <Link href={`/events/${e.slug}`} className="story-card group flex items-center gap-4 bg-white border border-purple-100 rounded-2xl p-3 pl-5 hover:shadow-lg hover:shadow-purple-100/60 transition-all">
       <span className="w-24 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-dark">
-        <img src={e.cover} alt="" className="w-full h-full object-cover" style={{ objectPosition: e.coverPosition ?? 'center' }} />
+        <img src={asset(e.cover)} alt="" className="w-full h-full object-cover" style={{ objectPosition: e.coverPosition ?? 'center' }} />
       </span>
       <span>
         <span className="block text-xs text-mid mb-1">{label} · {e.year}</span>

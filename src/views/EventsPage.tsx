@@ -6,6 +6,7 @@ import OutlineIcon, { type IconName } from '../components/OutlineIcon';
 import { najiaEvents } from '../data/events';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+import { asset } from '../lib/asset';
 const programs: { title: string; desc: string; icon: IconName }[] = [
   { title: 'لقاءات مباشرة مع الأطباء', desc: 'جلسات دورية حول محاور ما بعد العلاج مع مساحة مفتوحة للأسئلة.', icon: 'message' },
   { title: 'ورش التمكين', desc: 'ورش عملية في المهارات والمشاريع الصغيرة والعودة إلى العمل.', icon: 'spark' },
@@ -61,7 +62,7 @@ function EventsArchive() {
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-dark">
                 <img
-                  src={event.cover}
+                  src={asset(event.cover)}
                   alt={`غلاف ${event.title}`}
                   loading="lazy"
                   className="w-full h-full object-cover"

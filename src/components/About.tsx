@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+import { asset } from '../lib/asset';
 export default function About({ preview = false }: { preview?: boolean }) {
   const pathname = usePathname();
   const left = useScrollReveal(0.12);
@@ -20,7 +21,7 @@ export default function About({ preview = false }: { preview?: boolean }) {
           {/* Main image — from a real Najia gathering */}
           <div className="relative rounded-[2rem] overflow-hidden aspect-[4/3] shadow-2xl shadow-purple-200/40">
             <img
-              src="/community-stage.jpg"
+              src={asset('/community-stage.jpg')}
               alt="ناجيات ومتخصصات على المسرح في إحدى فعاليات مجتمع ناجية"
               className="w-full h-full object-cover"
             />
