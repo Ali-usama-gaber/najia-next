@@ -1,0 +1,292 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: var(--font-cairo), 'Cairo', sans-serif;
+
+  --color-gold-50: #FAF7E5;
+  --color-gold-100: #F3EBBB;
+  --color-gold-200: #E9D47D;
+  --color-gold-300: #D9BC4E;
+  --color-gold-400: #C49A30;
+  --color-gold-500: #A97E1A;
+  --color-gold-600: #876310;
+
+  --color-purple-50: #F8F4FB;
+  --color-purple-100: #EDE3F5;
+  --color-purple-200: #D5BCE8;
+  --color-purple-300: #BC95DC;
+  --color-purple-400: #A374CD;
+  --color-purple-500: #8B5C9E;
+  --color-purple-600: #6E4580;
+  --color-purple-700: #522E62;
+  --color-purple-800: #361845;
+  --color-purple-900: #1D0E2C;
+
+  --color-blush-100: #FDF2F6;
+  --color-blush-200: #F8DCEA;
+  --color-blush-300: #F0BFDA;
+  --color-blush-400: #E59FC4;
+
+  --color-cream: #FAF7F0;
+  --color-cream-deep: #F3ECDE;
+
+  --color-dark: #1C1222;
+  --color-dark-2: #2A1535;
+  --color-dark-3: #1E1030;
+  --color-ink: #3F3148;
+  --color-mid: #5A4A68;
+  --color-subtle: #6B5A78;
+  --color-quiet: #8E7CA0;
+  --color-muted: #9888A8;
+
+  /* Text on the dark plum surfaces */
+  --color-dusk-200: #BFB2CC;
+  --color-dusk-300: #A898B8;
+
+  /* Hairlines and quiet borders */
+  --color-line: #E4D7EE;
+  --color-line-soft: #F0E8F8;
+
+  --radius: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-cairo), 'Cairo', sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-purple-300); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-purple-500); }
+
+::selection {
+  background: #EDE3F5;
+  color: #522E62;
+}
+
+/* ─── Keyframes ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatGently {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  40%       { transform: translateY(-20px) rotate(3deg); }
+  70%       { transform: translateY(-10px) rotate(-2deg); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-28px) scale(1.03); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes wordReveal {
+  from { opacity: 0; transform: translateY(22px) scale(0.96); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0) scale(1);  filter: blur(0); }
+}
+
+@keyframes lineGrow {
+  from { height: 0; }
+  to   { height: 100%; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196, 154, 48, 0.5); }
+  50%       { box-shadow: 0 0 0 10px rgba(196, 154, 48, 0); }
+}
+
+/* ─── Reveal utilities ─── */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-left.reveal-visible { transform: translateX(0) !important; }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-right.reveal-visible { transform: translateX(0) !important; }
+
+/* ─── Hero word mask reveal ─── */
+.word-mask {
+  overflow: hidden;
+  display: inline-block;
+}
+.word-mask span {
+  display: inline-block;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── Pillar card hover ─── */
+.pillar-card {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.3s ease;
+}
+.pillar-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 60px -8px rgba(139, 92, 158, 0.18);
+}
+
+/* ─── Story card ─── */
+.story-card img {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.story-card:hover img {
+  transform: scale(1.06);
+}
+
+/* ─── Pause looping animations in sections that are off screen ─── */
+[data-offscreen],
+[data-offscreen] * {
+  animation-play-state: paused !important;
+}
+
+/* ─── Timeline line animation ─── */
+.timeline-line {
+  animation: lineGrow 1.4s ease-out forwards;
+}
+
+/* ─── Number shimmer ─── */
+.impact-number {
+  color: #E9D47D;
+}
+
+/* ─── Glassmorphism surface ─── */
+.glass {
+  background: rgba(250, 247, 240, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* ─── Page transitions ─── */
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: pageFadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── Hero mark ─── */
+@keyframes petalIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* كل جزء من الشعار يتجمع نحو مكانه */
+.mark-path {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: petalIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* الأطراف: تدخل مع بقية الأجزاء ثم تجدّف حول مفصلها بلا توقف.
+   الطوران A/B متعاكسان (نصف دورة) فيتبادل التجديف قطريًا كسباحة حقيقية. */
+@keyframes limbSwing {
+  0%, 100% { transform: rotate(var(--swing)); }
+  50%      { transform: rotate(calc(-1 * var(--swing))); }
+}
+
+.mark-limb {
+  transform-box: fill-box;
+  opacity: 0;
+  animation:
+    petalIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--in, 0.15s) both,
+    limbSwing var(--dur, 3.2s) ease-in-out var(--go, 2.6s) infinite;
+}
+
+/* الألوان تبدأ باهتة ثم تصحو إلى طبيعتها */
+@keyframes markAwaken {
+  from { filter: grayscale(0.9) saturate(0.35) opacity(0.85); }
+  to   { filter: grayscale(0) saturate(1) opacity(1); }
+}
+
+.mark-awaken {
+  filter: grayscale(0.9) saturate(0.35) opacity(0.85);
+  animation: markAwaken 2.4s ease 1.3s forwards;
+}
+
+/* تنفّس هادئ مستمر بعد الوصول */
+@keyframes markBreathe {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  50%      { transform: translateY(-14px) rotate(1.2deg) scale(1.015); }
+}
+
+/* ─── Survivor words ─── */
+.survivor-word {
+  opacity: 0;
+  animation: wordReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 3px solid rgba(139, 92, 158, 0.45);
+  outline-offset: 3px;
+}
+
+button:active, a:active { transform: translateY(1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+@media (max-width: 767px) {
+  .reveal-hidden, .reveal-left, .reveal-right { transform: translateY(24px); }
+  .pillar-card:hover, .story-card:hover img { transform: none; }
+  /* On phones, stop the ambient loops (float, breathe) but keep entrance
+     animations like petalIn/markAwaken — a blanket [style*='animation']
+     matcher would also catch animation-delay and hide the mark's parts. */
+  #hero [style*='float'], #hero [style*='markBreathe'] { animation: none !important; }
+}
