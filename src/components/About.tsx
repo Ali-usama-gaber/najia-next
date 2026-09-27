@@ -86,7 +86,8 @@ export default function About({ preview = false }: { preview?: boolean }) {
             ))}
           </div>
 
-          {pathname !== '/about' && (
+          {/* GitHub Pages serves /about/ (trailing slash), so compare without it. */}
+          {pathname.replace(/\/$/, '') !== '/about' && (
             <Link
               href="/about"
               className="inline-flex items-center gap-2 mt-8 text-purple-500 font-bold text-sm hover:gap-4 transition-all duration-300 group"

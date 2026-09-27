@@ -41,8 +41,8 @@ function MissionAndVision() {
         <span className="text-gold-600 font-extrabold text-sm">الرسالة</span>
         <p className="text-xl lg:text-2xl font-extrabold text-dark leading-relaxed mt-4">أن ترافق ناجية كل ناجية عربية في مرحلة ما بعد السرطان بدعم آمن، ومعرفة موثوقة، وتمكين يعيد لها دورها في أسرتها ومجتمعها وعملها.</p>
       </article>
-      <article className="bg-dark rounded-3xl p-8 lg:p-10">
-        <span className="text-gold-400 font-extrabold text-sm">الرؤية</span>
+      <article className="bg-purple-500 rounded-3xl p-8 lg:p-10">
+        <span className="text-gold-200 font-extrabold text-sm">الرؤية</span>
         <p className="text-xl lg:text-2xl font-extrabold text-white leading-relaxed mt-4">منصة رقمية عربية متخصصة في الرعاية الممتدة للناجيات بعد السرطان، تجمع البرامج التعليمية والدعم النفسي والاجتماعي والمحتوى الموثوق والبحث العلمي في منظومة واحدة.</p>
       </article>
     </div>

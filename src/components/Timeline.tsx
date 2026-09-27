@@ -144,7 +144,7 @@ export default function Timeline({ showCta = true }: { showCta?: boolean }) {
               className="w-full h-full bg-gradient-to-b from-gold-400 to-purple-500 origin-top"
               style={{
                 transform: `scaleY(${lineVisible ? 1 : 0})`,
-                transition: 'transform 2s cubic-bezier(0.22, 1, 0.36, 1)',
+                transition: 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)',
               }}
             />
           </div>
@@ -153,7 +153,7 @@ export default function Timeline({ showCta = true }: { showCta?: boolean }) {
             {timelineEvents.map((ev, i) => {
               const isLeft = i % 2 === 0;
               return (
-                <TimelineItem key={`${ev.year}-${i}`} ev={ev} isLeft={isLeft} lineVisible={lineVisible} delay={i * 150} />
+                <TimelineItem key={`${ev.year}-${i}`} ev={ev} isLeft={isLeft} lineVisible={lineVisible} delay={(i % 2) * 80} />
               );
             })}
           </div>
@@ -206,7 +206,7 @@ function TimelineItem({
   return (
     <div
       ref={ref}
-      className={`relative transition-all duration-700 ${
+      className={`relative transition-all duration-500 ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
       style={{
@@ -253,6 +253,18 @@ function EventContent({ ev, typeColor }: { ev: TimelineEvent; typeColor: string 
       {ev.date && <div className="text-xs text-mid font-medium mb-1">{ev.date}{ev.time && ` · ${ev.time}`}</div>}
       {ev.venue && <div className="text-xs text-mid mb-2 flex items-center gap-1.5"><OutlineIcon name="pin" className="w-3.5 h-3.5 text-purple-500" />{ev.venue}</div>}
       <p className="text-mid text-xs leading-relaxed">{ev.desc}</p>
+      {(() => {
+        const page = eventForTitle(ev.title);
+        return page ? (
+          <Link
+            href={`/events/${page.slug}`}
+            className="inline-flex items-center gap-1.5 mt-3 text-xs font-bold text-white bg-purple-500 hover:bg-purple-600 px-3.5 py-2 rounded-full transition-colors"
+          >
+            صفحة الفعالية
+            <svg className="w-3.5 h-3.5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </Link>
+        ) : null;
+      })()}
     </>
   );
 }
