@@ -48,8 +48,8 @@ export type NajiaEvent = {
   photos?: EventPhoto[];
   sources?: EventSource[];
   notes?: string; // ملاحظة عن حالة المعلومة إن لزم
-  category?: 'recognition'; // التكريمات تعيش في «أثر ناجية» لا في الفعاليات
-  clipsInLibrary?: boolean; // للفعالية مقاطع في مكتبة الفيديو
+  // recognition: تعيش في «أثر ناجية». knowledge: لقاء مقسّم في «فيديوهات المعرفة».
+  category?: 'recognition' | 'knowledge';
 };
 
 const SSIM = 'الجمعية العلمية السعودية للطب الباطني';
@@ -82,8 +82,8 @@ export const najiaEvents: NajiaEvent[] = [
         orientation: 'landscape',
       },
     ],
-    // التسجيل الكامل مقسّم حسب الموضوع في مكتبة الفيديو (src/data/videos.ts).
-    clipsInLibrary: true,
+    // التسجيل الكامل مقسّم حسب الموضوع في «فيديوهات المعرفة» (src/data/videos.ts).
+    category: 'knowledge',
     photos: [
       { src: '/events/virtual-2020/photo-1.jpg', caption: 'لقطة من البث المباشر للقاء عبر زوم.' },
     ],
@@ -244,6 +244,7 @@ export const najiaEvents: NajiaEvent[] = [
       { src: '/events/sumud/agenda-2.jpg', caption: 'برنامج اليوم الثاني — الثلاثاء ٢ يوليو ٢٠٢٤.' },
     ],
     videos: [
+      { src: '/events/sumud/video-1.mp4', poster: '/events/sumud/poster-1.jpg', caption: 'تغطية قناة الإخبارية للملتقى: لقطات من القاعة والمنصة ولقاءات مع الطبيبات المشاركات.', orientation: 'landscape' },
       { src: '/events/sumud/video-3.mp4', poster: '/events/sumud/poster-3.jpg', caption: 'فيديو الجهة المنظمة: من الاستقبال إلى الجلسات والحضور.', orientation: 'landscape' },
       { src: '/events/sumud/video-2.mp4', poster: '/events/sumud/poster-2.jpg', caption: 'ناجية منتجة ومبدعة: إحدى فنانات المجتمع ترسم لوحة اليدين والشريطة الوردية، ثم تعرضها في الملتقى.', orientation: 'portrait' },
     ],
@@ -322,6 +323,7 @@ export const najiaEvents: NajiaEvent[] = [
     ],
     videos: [
       { src: '/events/maarifa/video-1.mp4', poster: '/events/maarifa/poster-1.jpg', caption: 'الفيديو الملخّص للملتقى — ٢٨ أكتوبر ٢٠٢٤، هيلتون جدة.', orientation: 'landscape' },
+      { src: '/events/maarifa/video-3.mp4', poster: '/events/maarifa/poster-3.jpg', caption: 'لقاء تلفزيوني مع أ.د. أطلال أبوسند خلال الملتقى عن محاوره.', orientation: 'landscape' },
       { src: '/events/maarifa/video-2.mp4', poster: '/events/maarifa/poster-2.jpg', caption: 'لقطات من يوم الملتقى: المدخل والجلسات والضيافة.', orientation: 'portrait' },
     ],
     photos: [
@@ -392,10 +394,11 @@ export const najiaEvents: NajiaEvent[] = [
 export const eventBySlug = (slug: string) => najiaEvents.find((e) => e.slug === slug);
 
 // الفعاليات وحدها (التكريمات لها صفحة «أثر ناجية»).
-export const gatherings = najiaEvents.filter((e) => e.category !== 'recognition');
+export const gatherings = najiaEvents.filter((e) => !e.category);
 export const recognitions = najiaEvents.filter((e) => e.category === 'recognition');
 
-export const eventHref = (e: NajiaEvent) => (e.category === 'recognition' ? `/impact/${e.slug}` : `/events/${e.slug}`);
+export const eventHref = (e: NajiaEvent) =>
+  e.category === 'recognition' ? `/impact/${e.slug}` : e.category === 'knowledge' ? `/knowledge/videos/${e.slug}` : `/events/${e.slug}`;
 
 // For matching timeline entries (by title) to their event page.
 export const eventForTitle = (title: string) =>

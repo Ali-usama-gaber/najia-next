@@ -19,7 +19,6 @@ const nextConfig: NextConfig = pages
         return [
           { source: '/resources', destination: '/knowledge/articles', permanent: false },
           { source: '/media', destination: '/impact', permanent: false },
-          { source: '/events/jeddah-award', destination: '/impact/jeddah-award', permanent: false },
           { source: '/stories', destination: '/community#stories', permanent: false },
           { source: '/creative', destination: '/community#stories', permanent: false },
         ];

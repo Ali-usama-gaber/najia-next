@@ -5,7 +5,7 @@ import PageHeader from '../components/PageHeader';
 import LibraryCard from '../components/LibraryCard';
 import JoinSection from '../components/Join';
 import OutlineIcon from '../components/OutlineIcon';
-import { CollectionFrame, FilterChips, SearchBox, countLabel, matches, usePaged } from '../components/Collection';
+import { CollectionFrame, FilterBar, FilterSelect, SearchBox, countLabel, matches, usePaged } from '../components/Collection';
 import { articles, knowledgeTopics, medicalDisclaimer, type LibraryType } from '../data/knowledge';
 
 // «المعرفة ← أدلة ومقالات»: the written library, browsable by search, type
@@ -15,7 +15,7 @@ const PAGE_SIZE = 6;
 const ALL_TYPES = 'الكل';
 const ALL_TOPICS = 'كل الموضوعات';
 const typeFilters = [ALL_TYPES, 'دليل', 'مقال'] as const;
-const typeLabel = (t: (typeof typeFilters)[number]) => (t === ALL_TYPES ? 'الكل' : t === 'دليل' ? 'الأدلة' : 'المقالات');
+const typeLabel = (t: (typeof typeFilters)[number]) => (t === ALL_TYPES ? 'كل الأنواع' : t === 'دليل' ? 'الأدلة' : 'المقالات');
 // Only topics that have at least one article, in the approved order.
 const topics = [ALL_TOPICS, ...knowledgeTopics.filter((t) => articles.some((a) => a.topic === t))];
 
@@ -49,13 +49,13 @@ function Library() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <CollectionFrame
           controls={
-            <>
-              <div className="flex flex-col md:flex-row md:items-center gap-4 md:justify-between">
-                <SearchBox value={query} onChange={setQuery} placeholder="ابحثي في المكتبة: الحمل، الرياضة، الخوف…" label="البحث في الأدلة والمقالات" />
-                <FilterChips options={typeFilters} value={type} onChange={setType} label="تصفية حسب النوع" format={typeLabel} />
-              </div>
-              <FilterChips options={topics} value={topic} onChange={setTopic} label="تصفية حسب الموضوع" />
-            </>
+            <FilterBar
+              search={<SearchBox value={query} onChange={setQuery} placeholder="الحمل، الرياضة، الخوف من عودة المرض…" label="البحث في الأدلة والمقالات" />}
+              filters={<>
+                <FilterSelect options={topics} value={topic} onChange={setTopic} label="الموضوع" />
+                <FilterSelect options={typeFilters} value={type} onChange={setType} label="النوع" format={typeLabel} />
+              </>}
+            />
           }
           count={filtered.length}
           noun={(n) => countLabel(n, 'مادة واحدة', 'مادتان', 'مواد', 'مادة')}

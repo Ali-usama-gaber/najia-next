@@ -5,7 +5,8 @@ import Link from 'next/link';
 import JoinSection from '../components/Join';
 import OutlineIcon, { type IconName } from '../components/OutlineIcon';
 import { gatherings, type EventPhoto, type NajiaEvent, type ProgramItem } from '../data/events';
-import { libraryVideos } from '../data/videos';
+import ImpactCard from '../components/ImpactCard';
+import { impactForEvent } from '../data/impact';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 import { asset } from '../lib/asset';
@@ -135,7 +136,8 @@ function Overview({ event }: { event: NajiaEvent }) {
     event.program?.length || event.agendaImages?.length ? { id: 'program', label: 'برنامج اليوم' } : null,
     event.videos?.length ? { id: 'videos', label: 'الفيديوهات' } : null,
     event.photos?.length ? { id: 'photos', label: 'الصور' } : null,
-    event.sources?.length ? { id: 'sources', label: 'في الإعلام' } : null,
+    impactForEvent(event.slug).length ? { id: 'impact', label: 'التكريم والإعلام' } : null,
+    event.sources?.length ? { id: 'sources', label: 'المصادر' } : null,
   ].filter(Boolean) as { id: string; label: string }[];
 
   return (
@@ -270,21 +272,6 @@ function Videos({ event }: { event: NajiaEvent }) {
             </figure>
           ))}
         </div>
-        {event.clipsInLibrary && (
-          <Link
-            href="/knowledge/videos"
-            className="group mt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-5 bg-white/5 border border-white/15 rounded-[1.5rem] p-6 lg:p-7 hover:border-gold-200/50 transition-colors"
-          >
-            <span>
-              <span className="block text-white font-extrabold text-lg lg:text-xl mb-1.5">شاهدي اللقاء كاملًا، سؤالًا بسؤال</span>
-              <span className="block text-purple-200 text-sm leading-relaxed">قسّمنا تسجيل اللقاء إلى {libraryVideos.filter((v) => v.event === event.slug).length.toLocaleString('ar-SA')} مقطعًا حسب الموضوع في مكتبة الفيديو.</span>
-            </span>
-            <span className="inline-flex items-center gap-2 bg-gold-400 text-dark px-6 py-3 rounded-full text-sm font-bold whitespace-nowrap self-start sm:self-auto group-hover:bg-gold-300 transition-colors">
-              مكتبة الفيديو
-              <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </span>
-          </Link>
-        )}
       </div>
     </section>
   );
@@ -319,28 +306,39 @@ function Photos({ event }: { event: NajiaEvent }) {
   );
 }
 
-const sourceKindLabel: Record<string, string> = {
-  news: 'خبر', video: 'فيديو', social: 'منشور', official: 'مصدر رسمي', academic: 'منشور علمي',
-};
+// Recognition and coverage tied to this event: the same items as أثر ناجية,
+// shown here as cards that open their own pages.
+function InTheNews({ event }: { event: NajiaEvent }) {
+  const items = impactForEvent(event.slug);
+  if (!items.length) return null;
+  return (
+    <section className="py-16 lg:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <SectionTitle id="impact">التكريم <span className="text-purple-500">والإعلام</span></SectionTitle>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.map((item) => <ImpactCard key={item.slug} item={item} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
 
+// Where the page's facts come from, named in text (no outbound links).
 function Sources({ event }: { event: NajiaEvent }) {
   const sources = event.sources ?? [];
   if (!sources.length) return null;
   return (
-    <section className="py-16 lg:py-20 bg-white">
+    <section className="py-12 bg-cream border-t border-purple-100">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <SectionTitle id="sources">في <span className="text-purple-500">الإعلام</span></SectionTitle>
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h2 id="sources" className="scroll-mt-28 text-lg font-extrabold text-dark mb-5">المصادر</h2>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
           {sources.map((s) => (
-            <li key={s.url}>
-              <a href={s.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4 bg-cream border border-purple-100 rounded-2xl p-5 hover:border-purple-300 hover:shadow-md transition-all">
-                <span className="bg-white text-purple-600 px-3 py-1 rounded-full text-xs font-bold flex-shrink-0">{sourceKindLabel[s.kind] ?? 'رابط'}</span>
-                <span className="flex-1">
-                  <span className="block font-bold text-dark leading-snug group-hover:text-purple-500 transition-colors">{s.title}</span>
-                  {(s.publisher || s.date) && <span className="block text-xs text-mid mt-1">{[s.publisher, s.date].filter(Boolean).join(' · ')}</span>}
-                </span>
-                <svg className="w-4 h-4 mt-1 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5h5v5M19 5l-8 8M10 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4" /></svg>
-              </a>
+            <li key={s.title + s.date} className="flex items-start gap-3 text-sm leading-relaxed">
+              <OutlineIcon name="book" className="w-4 h-4 mt-1 text-purple-500 flex-shrink-0" />
+              <span>
+                <span className="block text-dark font-semibold">{s.title}</span>
+                {(s.publisher || s.date) && <span className="block text-xs text-mid">{[s.publisher, s.date].filter(Boolean).join(' · ')}</span>}
+              </span>
             </li>
           ))}
         </ul>
@@ -384,6 +382,7 @@ export default function EventDetail({ event }: { event: NajiaEvent }) {
       <Program event={event} />
       <Videos event={event} />
       <Photos event={event} />
+      <InTheNews event={event} />
       <Sources event={event} />
       <PrevNext event={event} />
       <JoinSection />

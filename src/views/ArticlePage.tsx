@@ -51,9 +51,7 @@ function Body({ article }: { article: Article }) {
                     {(i + 1).toLocaleString('ar-SA')}
                   </span>
                   <span>
-                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="font-bold text-purple-600 hover:underline underline-offset-4">
-                      {s.title}
-                    </a>
+                    <span className="font-bold text-dark">{s.title}</span>
                     <span className="text-mid"> — {s.publisher}{s.year ? `، ${s.year}` : ''}</span>
                   </span>
                 </li>

@@ -6,7 +6,7 @@ import PageHeader from '../components/PageHeader';
 import JoinSection from '../components/Join';
 import OutlineIcon, { type IconName } from '../components/OutlineIcon';
 import { gatherings, type NajiaEvent } from '../data/events';
-import { CollectionFrame, FilterChips, SearchBox, countLabel, matches, usePaged } from '../components/Collection';
+import { CollectionFrame, FilterBar, FilterSelect, SearchBox, countLabel, matches, usePaged } from '../components/Collection';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 import { asset } from '../lib/asset';
@@ -127,11 +127,13 @@ function EventsArchive() {
 
         <CollectionFrame
           controls={
-            <>
-              <SearchBox value={query} onChange={setQuery} placeholder="ابحثي في الفعاليات: الوذمة، التغذية، د. ريم…" label="البحث في الفعاليات" />
-              <FilterChips options={years} value={year} onChange={setYear} label="تصفية حسب السنة" />
-              <FilterChips options={kinds} value={kind} onChange={setKind} label="تصفية حسب نوع الفعالية" />
-            </>
+            <FilterBar
+              search={<SearchBox value={query} onChange={setQuery} placeholder="الوذمة، التغذية، د. ريم…" label="البحث في الفعاليات" />}
+              filters={<>
+                <FilterSelect options={years} value={year} onChange={setYear} label="السنة" />
+                <FilterSelect options={kinds} value={kind} onChange={setKind} label="نوع الفعالية" />
+              </>}
+            />
           }
           count={filtered.length}
           noun={(n) => countLabel(n, 'فعالية واحدة', 'فعاليتان', 'فعاليات', 'فعالية')}

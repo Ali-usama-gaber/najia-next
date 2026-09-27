@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { Listbox } from './FormField';
 
 // Shared browsing controls for the growing archives (events, articles,
 // videos): a search box, filter chips, and numbered pages.
@@ -38,7 +39,7 @@ export function usePaged<T>(items: T[], pageSize: number, resetKey: string) {
 
 export function SearchBox({ value, onChange, placeholder, label }: { value: string; onChange: (v: string) => void; placeholder: string; label: string }) {
   return (
-    <div className="relative w-full md:max-w-sm">
+    <div className="relative w-full">
       <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <circle cx="11" cy="11" r="7" />
         <path d="m20 20-3.5-3.5" />
@@ -49,28 +50,37 @@ export function SearchBox({ value, onChange, placeholder, label }: { value: stri
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         aria-label={label}
-        className="w-full min-h-12 bg-white border-2 border-purple-100 rounded-full pr-12 pl-5 text-sm text-dark placeholder:text-quiet focus:outline-none focus:border-purple-400 transition-colors"
+        className="w-full h-[3.25rem] bg-white border-2 border-purple-200 rounded-xl pr-12 pl-5 text-sm text-dark placeholder:text-quiet focus:outline-none focus:border-purple-500 transition-colors"
       />
     </div>
   );
 }
 
-export function FilterChips<T extends string>({ options, value, onChange, label, format }: { options: readonly T[]; value: T; onChange: (v: T) => void; label: string; format?: (v: T) => string }) {
+// A labelled dropdown filter (the site's own Listbox, same look as the forms).
+export function FilterSelect<T extends string>({ options, value, onChange, label, format }: { options: readonly T[]; value: T; onChange: (v: T) => void; label: string; format?: (v: T) => string }) {
   return (
-    <div className="flex flex-wrap gap-2" role="group" aria-label={label}>
-      {options.map((opt) => (
-        <button
-          key={opt}
-          type="button"
-          onClick={() => onChange(opt)}
-          aria-pressed={value === opt}
-          className={`min-h-10 px-4 py-2 rounded-full text-sm font-bold transition-all ${
-            value === opt ? 'bg-purple-500 text-white shadow-md shadow-purple-300/30' : 'bg-white border border-purple-100 text-mid hover:border-purple-300 hover:text-purple-600'
-          }`}
-        >
-          {format ? format(opt) : opt}
-        </button>
-      ))}
+    <div className="w-full">
+      <span className="block text-xs font-bold text-mid mb-1.5">{label}</span>
+      <Listbox
+        name={label}
+        ariaLabel={label}
+        value={value}
+        onChange={(v) => onChange(v as T)}
+        options={options.map((o) => ({ value: o, label: format ? format(o) : o }))}
+      />
+    </div>
+  );
+}
+
+// Search on one side, dropdown filters beside it.
+export function FilterBar({ search, filters }: { search: ReactNode; filters: ReactNode }) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,2fr)] gap-4 md:items-end">
+      <div>
+        <span className="block text-xs font-bold text-mid mb-1.5">بحث</span>
+        {search}
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{filters}</div>
     </div>
   );
 }
@@ -85,7 +95,6 @@ function PageArrow({ dir }: { dir: 'prev' | 'next' }) {
 }
 
 export function Pagination({ page, pages, onChange }: { page: number; pages: number; onChange: (p: number) => void }) {
-  if (pages <= 1) return null;
   const btn = 'min-w-11 h-11 px-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40 disabled:pointer-events-none';
   return (
     <nav className="mt-10 flex items-center justify-center gap-2 flex-wrap" aria-label="صفحات النتائج">
@@ -143,7 +152,7 @@ export function CollectionFrame({
   };
   return (
     <div ref={top}>
-      <div className="bg-purple-50/70 border border-purple-100 rounded-[1.5rem] p-4 lg:p-5 mb-8 space-y-4">{controls}</div>
+      <div className="relative z-10 bg-purple-50/70 border border-purple-100 rounded-[1.5rem] p-4 lg:p-5 mb-8">{controls}</div>
       <p className="text-mid text-sm mb-6" aria-live="polite">{noun(count)}</p>
       {count === 0 ? (
         <div className="text-center py-16 bg-cream rounded-[1.5rem] border border-line-soft">

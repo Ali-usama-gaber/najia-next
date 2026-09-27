@@ -44,7 +44,7 @@ export default function FormField({ id, label, optional, children }: { id: strin
 // flush on the field's edges, and the control keeps full keyboard support
 // (arrows, Home/End, Enter/Space, Escape, first-letter jump).
 
-type Option = { value: string; label: string; hint?: string; Icon?: ComponentType<{ className?: string; title?: string }> };
+export type Option = { value: string; label: string; hint?: string; Icon?: ComponentType<{ className?: string; title?: string }> };
 
 function Flag({ Icon }: { Icon?: Option['Icon'] }) {
   if (!Icon) return null;

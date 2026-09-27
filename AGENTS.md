@@ -21,16 +21,16 @@ npx -y pnpm@10.34.3 start    # next start (after build)
 
 - `src/app/layout.tsx`: root layout (server). Sets `<html lang="ar" dir="rtl">`, loads the Cairo font, holds site metadata, and wraps pages in `SiteShell`.
 - `src/app/globals.css`: global CSS. Contains the Tailwind import, `@theme` tokens (gold/purple/blush/cream colours), keyframes, reveal utilities, and `.page-enter`.
-- `src/app/**/page.tsx`: thin route files that render a view. Routes are `/`, `/about`, `/community`, `/knowledge` (+ `/knowledge/articles`, `/knowledge/videos`, `/articles/[slug]`), `/events` (+ `/events/[slug]`), `/impact` (+ `/impact/[slug]` for recognitions), `/join`, and `/get-involved`. `/discover` (the old «عالم ناجية») forwards to `/events` in the browser. `src/app/not-found.tsx` handles 404s.
+- `src/app/**/page.tsx`: thin route files that render a view. Routes are `/`, `/about`, `/community`, `/knowledge` (+ `/knowledge/articles`, `/knowledge/videos` + `/knowledge/videos/[slug]` for a session's clip playlist, `/articles/[slug]`), `/events` (+ `/events/[slug]`), `/impact` (+ `/impact/[slug]`: one page per recognition, media piece, news story and publication), `/join`, and `/get-involved`. `/discover` (the old «عالم ناجية») forwards to `/events` in the browser. `src/app/not-found.tsx` handles 404s.
 - `src/views/`: page-level components (Home, About, Community, KnowledgeHub, KnowledgePage, VideosPage, EventsPage, EventDetail, ImpactPage, ArticlePage, JoinPage, GetInvolvedPage, NotFound).
 - `src/components/`: sections and shared UI. `SiteShell.tsx` is the client shell (Nav + keyed `<main className="page-enter">` + Footer, plus scroll-to-top and scroll-to-hash on navigation).
 - `src/hooks/`: `useScrollReveal`, `useCounter`.
 - `public/logo.svg`: site logo, referenced as `'/logo.svg'`.
 - `public/robots.txt`: disallows all crawlers, same as the original site (which is also `noindex, nofollow`).
 - `src/proxy.ts`: redirects mixed-case page paths (e.g. `/About`) to their lowercase route. The old router matched paths case-insensitively.
-- `next.config.ts`: legacy redirects for local dev/build (`/resources` → `/knowledge/articles`, `/media` → `/impact`, `/events/jeddah-award` → `/impact/jeddah-award`, `/stories` and `/creative` → `/community#stories`). The GitHub Pages export (`PAGES=1`) has no redirects.
-- `src/data/`: `events.ts` (gatherings + recognitions), `knowledge.ts` (articles), `videos.ts` (topic clips in `public/videos/`), `impact.ts` (recognition, media, research).
-- `src/components/Collection.tsx`: shared search / filter chips / numbered pages used by the events archive and both libraries.
+- `next.config.ts`: legacy redirects for local dev/build (`/resources` → `/knowledge/articles`, `/media` → `/impact`, `/stories` and `/creative` → `/community#stories`). The GitHub Pages export (`PAGES=1`) has no redirects.
+- `src/data/`: `events.ts` (gatherings + recognitions), `knowledge.ts` (articles), `videos.ts` (topic clips in `public/videos/`), `impact.ts` + `press.ts` (recognition, media, press, research). Sources are named in text; the site has no outbound links except the footer YouTube icon.
+- `src/components/Collection.tsx`: shared search / dropdown filters (`FilterSelect` on the forms' `Listbox`) / numbered pages used by the events archive and both libraries.
 - `docs/briefs/`: the original design and content briefs, kept for reference only.
 
 ## Rules
