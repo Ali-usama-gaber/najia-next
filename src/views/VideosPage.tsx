@@ -122,7 +122,7 @@ export default function VideosPage() {
       title="فيديوهات"
       highlight="المعرفة"
       subtitle="لقاءات ناجية المسجّلة، مقسّمة سؤالًا بسؤال: أسئلة الناجيات وإجابات الأطباء والمختصين عن الحياة بعد العلاج."
-      crumbs={[{ label: 'الرئيسية', to: '/' }, { label: 'المعرفة', to: '/knowledge' }, { label: 'فيديوهات', to: '/knowledge/videos' }]}
+      crumbs={[{ label: 'الرئيسية', to: '/' }, { label: 'فيديوهات', to: '/knowledge/videos' }]}
     />
     <Library />
     <JoinSection />

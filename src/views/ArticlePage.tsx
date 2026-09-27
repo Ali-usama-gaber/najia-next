@@ -132,7 +132,6 @@ export default function ArticlePage({ article }: { article: Article }) {
         subtitle={article.desc}
         crumbs={[
           { label: 'الرئيسية', to: '/' },
-          { label: 'المعرفة', to: '/knowledge' },
           { label: 'أدلة ومقالات', to: '/knowledge/articles' },
           { label: article.title, to: `/articles/${article.slug}` },
         ]}

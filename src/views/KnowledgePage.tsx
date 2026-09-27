@@ -80,7 +80,7 @@ export default function KnowledgePage() {
       title="أدلة"
       highlight="ومقالات"
       subtitle="قراءات عربية مبسّطة تجيب عن الأسئلة التي لا يتّسع لها وقت العيادة، مبنية على إرشادات طبية موثوقة تُذكر مصادرها أسفل كل مقال."
-      crumbs={[{ label: 'الرئيسية', to: '/' }, { label: 'المعرفة', to: '/knowledge' }, { label: 'أدلة ومقالات', to: '/knowledge/articles' }]}
+      crumbs={[{ label: 'الرئيسية', to: '/' }, { label: 'أدلة ومقالات', to: '/knowledge/articles' }]}
     />
     <Library />
     <JoinSection />

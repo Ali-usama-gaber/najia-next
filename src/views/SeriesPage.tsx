@@ -58,7 +58,6 @@ export default function SeriesPage({ series }: { series: VideoSeries }) {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
           <nav className="flex flex-wrap items-center gap-2 text-xs mb-6 text-white/70" aria-label="مسار التنقل">
             <Link href="/" className="py-1.5 hover:text-white">الرئيسية</Link><span aria-hidden="true">/</span>
-            <Link href="/knowledge" className="py-1.5 hover:text-white">المعرفة</Link><span aria-hidden="true">/</span>
             <Link href="/knowledge/videos" className="py-1.5 hover:text-white">فيديوهات</Link><span aria-hidden="true">/</span>
             <span className="text-gold-200">{series.title}</span>
           </nav>
