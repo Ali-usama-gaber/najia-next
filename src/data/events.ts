@@ -6,8 +6,7 @@
 export type SourceStatus = 'confirmed' | 'source-attributed' | 'needs-confirmation';
 
 export type EventVideo = {
-  src?: string; // ملف محلي
-  youtubeId?: string; // أو فيديو منشور على يوتيوب
+  src: string; // ملف محلي في public/
   poster: string;
   caption: string;
   orientation: 'landscape' | 'portrait' | 'square';
@@ -49,6 +48,8 @@ export type NajiaEvent = {
   photos?: EventPhoto[];
   sources?: EventSource[];
   notes?: string; // ملاحظة عن حالة المعلومة إن لزم
+  category?: 'recognition'; // التكريمات تعيش في «أثر ناجية» لا في الفعاليات
+  clipsInLibrary?: boolean; // للفعالية مقاطع في مكتبة الفيديو
 };
 
 const SSIM = 'الجمعية العلمية السعودية للطب الباطني';
@@ -75,18 +76,14 @@ export const najiaEvents: NajiaEvent[] = [
     hero: '/events/virtual-2020/hero.jpg',
     videos: [
       {
-        youtubeId: 'bKcv1grvNKY',
-        poster: '/events/virtual-2020/poster-1.jpg',
-        caption: 'التسجيل الكامل للقاء (نحو ساعتين) على قناة ناجية في يوتيوب.',
-        orientation: 'landscape',
-      },
-      {
-        youtubeId: 'R1SG-_lG0do',
+        src: '/events/virtual-2020/promo.mp4',
         poster: '/events/virtual-2020/poster-2.jpg',
         caption: 'إعلان موعد اللقاء: الخميس ١٥ أكتوبر، ٧–٩ مساءً، مباشر على القناة.',
         orientation: 'landscape',
       },
     ],
+    // التسجيل الكامل مقسّم حسب الموضوع في مكتبة الفيديو (src/data/videos.ts).
+    clipsInLibrary: true,
     photos: [
       { src: '/events/virtual-2020/photo-1.jpg', caption: 'لقطة من البث المباشر للقاء عبر زوم.' },
     ],
@@ -102,6 +99,7 @@ export const najiaEvents: NajiaEvent[] = [
     title: 'جائزة جدة للإبداع',
     fullTitle: '«ناجية» في جائزة جدة للإبداع — النسخة الرابعة',
     kind: 'تكريم',
+    category: 'recognition',
     year: '٢٠٢١',
     date: 'أكتوبر ٢٠٢١',
     venue: 'مركز الملك فهد للبحوث الطبية، جامعة الملك عبدالعزيز، جدة',
@@ -246,7 +244,6 @@ export const najiaEvents: NajiaEvent[] = [
       { src: '/events/sumud/agenda-2.jpg', caption: 'برنامج اليوم الثاني — الثلاثاء ٢ يوليو ٢٠٢٤.' },
     ],
     videos: [
-      { src: '/events/sumud/video-1.mp4', poster: '/events/sumud/poster-1.jpg', caption: 'تغطية قناة الإخبارية («برنامج اليوم») للملتقى: لقطات من القاعة والمنصة ولقاءات مع الطبيبات المشاركات.', orientation: 'landscape' },
       { src: '/events/sumud/video-3.mp4', poster: '/events/sumud/poster-3.jpg', caption: 'فيديو الجهة المنظمة: من الاستقبال إلى الجلسات والحضور.', orientation: 'landscape' },
       { src: '/events/sumud/video-2.mp4', poster: '/events/sumud/poster-2.jpg', caption: 'ناجية منتجة ومبدعة: إحدى فنانات المجتمع ترسم لوحة اليدين والشريطة الوردية، ثم تعرضها في الملتقى.', orientation: 'portrait' },
     ],
@@ -325,7 +322,6 @@ export const najiaEvents: NajiaEvent[] = [
     ],
     videos: [
       { src: '/events/maarifa/video-1.mp4', poster: '/events/maarifa/poster-1.jpg', caption: 'الفيديو الملخّص للملتقى — ٢٨ أكتوبر ٢٠٢٤، هيلتون جدة.', orientation: 'landscape' },
-      { src: '/events/maarifa/video-3.mp4', poster: '/events/maarifa/poster-3.jpg', caption: 'لقاء تلفزيوني خلال الملتقى.', orientation: 'landscape' },
       { src: '/events/maarifa/video-2.mp4', poster: '/events/maarifa/poster-2.jpg', caption: 'لقطات من يوم الملتقى: المدخل والجلسات والضيافة.', orientation: 'portrait' },
     ],
     photos: [
@@ -394,6 +390,12 @@ export const najiaEvents: NajiaEvent[] = [
 ];
 
 export const eventBySlug = (slug: string) => najiaEvents.find((e) => e.slug === slug);
+
+// الفعاليات وحدها (التكريمات لها صفحة «أثر ناجية»).
+export const gatherings = najiaEvents.filter((e) => e.category !== 'recognition');
+export const recognitions = najiaEvents.filter((e) => e.category === 'recognition');
+
+export const eventHref = (e: NajiaEvent) => (e.category === 'recognition' ? `/impact/${e.slug}` : `/events/${e.slug}`);
 
 // For matching timeline entries (by title) to their event page.
 export const eventForTitle = (title: string) =>

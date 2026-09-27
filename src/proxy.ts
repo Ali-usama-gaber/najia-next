@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 // case-sensitive, so send mixed-case variants of the page routes to their
 // lowercase path instead of the 404 page. (The legacy redirects in
 // next.config.ts already match case-insensitively.)
-const PAGE_ROUTES = new Set(['/about', '/community', '/discover', '/join', '/get-involved']);
+const PAGE_ROUTES = new Set(['/about', '/community', '/knowledge', '/events', '/impact', '/discover', '/join', '/get-involved']);
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

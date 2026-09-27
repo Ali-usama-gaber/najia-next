@@ -9,9 +9,9 @@ const columns = [
       { label: 'الرئيسية', to: '/' },
       { label: 'عن ناجية', to: '/about' },
       { label: 'المجتمع', to: '/community' },
-      { label: 'الملتقيات', to: '/discover#events' },
-      { label: 'المعرفة', to: '/discover#knowledge' },
-      { label: 'شاركينا', to: '/get-involved' },
+      { label: 'المعرفة', to: '/knowledge' },
+      { label: 'الفعاليات', to: '/events' },
+      { label: 'أثر ناجية', to: '/impact' },
     ],
   },
   {
@@ -20,7 +20,9 @@ const columns = [
       { label: 'الانضمام للمجتمع', to: '/join' },
       { label: 'التطوّع والشراكة', to: '/get-involved#volunteer' },
       { label: 'التواصل الإعلامي', to: '/get-involved#media' },
-      { label: 'المكتبة', to: '/discover#knowledge' },
+      { label: 'أدلة ومقالات', to: '/knowledge/articles' },
+      { label: 'فيديوهات', to: '/knowledge/videos' },
+      { label: 'شاركينا', to: '/get-involved' },
     ],
   },
 ];

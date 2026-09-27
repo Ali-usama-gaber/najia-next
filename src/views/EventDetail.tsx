@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import JoinSection from '../components/Join';
 import OutlineIcon, { type IconName } from '../components/OutlineIcon';
-import { najiaEvents, type EventPhoto, type NajiaEvent, type ProgramItem } from '../data/events';
+import { gatherings, type EventPhoto, type NajiaEvent, type ProgramItem } from '../data/events';
+import { libraryVideos } from '../data/videos';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 import { asset } from '../lib/asset';
@@ -94,7 +95,10 @@ function Hero({ event }: { event: NajiaEvent }) {
         <div>
           <nav className="flex flex-wrap items-center gap-2 text-xs mb-6 text-white/70" aria-label="مسار التنقل" style={step(0)}>
             <Link href="/" className="py-1.5 hover:text-white">الرئيسية</Link><span aria-hidden="true">/</span>
-            <Link href="/discover#events" className="py-1.5 hover:text-white">الملتقيات</Link><span aria-hidden="true">/</span>
+            {event.category === 'recognition'
+              ? <Link href="/impact" className="py-1.5 hover:text-white">أثر ناجية</Link>
+              : <Link href="/events" className="py-1.5 hover:text-white">الفعاليات</Link>}
+            <span aria-hidden="true">/</span>
             <span className="text-gold-200">{event.title}</span>
           </nav>
           <div className="flex flex-wrap items-center gap-3 mb-5" style={step(1)}>
@@ -237,39 +241,6 @@ function Program({ event }: { event: NajiaEvent }) {
   );
 }
 
-// Click-to-load: the poster stands in until the visitor presses play, so no
-// YouTube script or cookie loads with the page.
-function YouTubeEmbed({ id, poster, title }: { id: string; poster: string; title: string }) {
-  const [playing, setPlaying] = useState(false);
-  if (playing) {
-    return (
-      <iframe
-        src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
-        title={title}
-        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-        allowFullScreen
-        className="w-full aspect-video rounded-2xl bg-black"
-      />
-    );
-  }
-  return (
-    <button
-      type="button"
-      onClick={() => setPlaying(true)}
-      aria-label={`تشغيل: ${title}`}
-      className="group relative block w-full aspect-video rounded-2xl overflow-hidden bg-black focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold-200/50"
-    >
-      <img src={asset(poster)} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" />
-      <span className="absolute inset-0 flex items-center justify-center">
-        <span className="w-16 h-16 rounded-full bg-white/95 text-purple-600 flex items-center justify-center shadow-xl transition-transform duration-300 group-hover:scale-110">
-          <svg className="w-7 h-7 translate-x-[2px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" /></svg>
-        </span>
-      </span>
-      <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs font-bold px-2.5 py-1 rounded-full">يوتيوب</span>
-    </button>
-  );
-}
-
 function Videos({ event }: { event: NajiaEvent }) {
   const { ref, visible } = useScrollReveal(0.08);
   const videos = event.videos ?? [];
@@ -283,26 +254,37 @@ function Videos({ event }: { event: NajiaEvent }) {
         <div className={`grid grid-cols-1 gap-6 items-start ${allLandscape ? (videos.length > 1 ? 'lg:grid-cols-2' : 'max-w-4xl') : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
           {videos.map((v, i) => (
             <figure
-              key={v.src ?? v.youtubeId}
+              key={v.src}
               className={`${!allLandscape && v.orientation === 'landscape' ? 'sm:col-span-2' : ''} reveal-hidden ${visible ? 'reveal-visible' : ''}`}
               style={{ transitionDelay: `${i * 90}ms` }}
             >
-              {v.youtubeId ? (
-                <YouTubeEmbed id={v.youtubeId} poster={asset(v.poster)} title={v.caption} />
-              ) : (
-                <video
-                  src={v.src && asset(v.src)}
-                  poster={asset(v.poster)}
-                  controls
-                  preload="none"
-                  playsInline
-                  className={`w-full rounded-2xl bg-black ${v.orientation === 'portrait' ? 'aspect-[9/16] object-cover' : 'aspect-video object-contain'}`}
-                />
-              )}
+              <video
+                src={asset(v.src)}
+                poster={asset(v.poster)}
+                controls
+                preload="none"
+                playsInline
+                className={`w-full rounded-2xl bg-black ${v.orientation === 'portrait' ? 'aspect-[9/16] object-cover' : 'aspect-video object-contain'}`}
+              />
               <figcaption className="text-purple-200 text-sm leading-relaxed mt-3">{v.caption}</figcaption>
             </figure>
           ))}
         </div>
+        {event.clipsInLibrary && (
+          <Link
+            href="/knowledge/videos"
+            className="group mt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-5 bg-white/5 border border-white/15 rounded-[1.5rem] p-6 lg:p-7 hover:border-gold-200/50 transition-colors"
+          >
+            <span>
+              <span className="block text-white font-extrabold text-lg lg:text-xl mb-1.5">شاهدي اللقاء كاملًا، سؤالًا بسؤال</span>
+              <span className="block text-purple-200 text-sm leading-relaxed">قسّمنا تسجيل اللقاء إلى {libraryVideos.filter((v) => v.event === event.slug).length.toLocaleString('ar-SA')} مقطعًا حسب الموضوع في مكتبة الفيديو.</span>
+            </span>
+            <span className="inline-flex items-center gap-2 bg-gold-400 text-dark px-6 py-3 rounded-full text-sm font-bold whitespace-nowrap self-start sm:self-auto group-hover:bg-gold-300 transition-colors">
+              مكتبة الفيديو
+              <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </span>
+          </Link>
+        )}
       </div>
     </section>
   );
@@ -368,9 +350,10 @@ function Sources({ event }: { event: NajiaEvent }) {
 }
 
 function PrevNext({ event }: { event: NajiaEvent }) {
-  const i = najiaEvents.findIndex((e) => e.slug === event.slug);
-  const prev = najiaEvents[i - 1];
-  const next = najiaEvents[i + 1];
+  const i = gatherings.findIndex((e) => e.slug === event.slug);
+  if (i < 0) return null;
+  const prev = gatherings[i - 1];
+  const next = gatherings[i + 1];
   if (!prev && !next) return null;
   const card = (e: NajiaEvent, label: string) => (
     <Link href={`/events/${e.slug}`} className="story-card group flex items-center gap-4 bg-white border border-purple-100 rounded-2xl p-3 pl-5 hover:shadow-lg hover:shadow-purple-100/60 transition-all">

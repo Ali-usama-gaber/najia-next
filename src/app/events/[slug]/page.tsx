@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import EventDetail from '@/views/EventDetail';
-import { eventBySlug, najiaEvents } from '@/data/events';
+import { eventBySlug, gatherings } from '@/data/events';
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return najiaEvents.map((e) => ({ slug: e.slug }));
+  return gatherings.map((e) => ({ slug: e.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -23,6 +23,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const event = eventBySlug(slug);
-  if (!event) notFound();
+  if (!event || event.category === 'recognition') notFound();
   return <EventDetail event={event} />;
 }

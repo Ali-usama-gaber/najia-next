@@ -17,9 +17,9 @@ const nextConfig: NextConfig = pages
       // Legacy paths from the Vite/react-router site now live as sections on merged pages.
       async redirects() {
         return [
-          { source: '/resources', destination: '/discover#knowledge', permanent: false },
-          { source: '/events', destination: '/discover#events', permanent: false },
-          { source: '/media', destination: '/discover', permanent: false },
+          { source: '/resources', destination: '/knowledge/articles', permanent: false },
+          { source: '/media', destination: '/impact', permanent: false },
+          { source: '/events/jeddah-award', destination: '/impact/jeddah-award', permanent: false },
           { source: '/stories', destination: '/community#stories', permanent: false },
           { source: '/creative', destination: '/community#stories', permanent: false },
         ];

@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
-import Discovery from '@/views/Discovery';
+import LegacyRedirect from '@/components/LegacyRedirect';
 
 export const metadata: Metadata = {
-  title: 'عالم ناجية',
+  title: 'الفعاليات',
+  robots: { index: false },
 };
 
+// «عالم ناجية» was split into الفعاليات and المعرفة. A static export can't
+// send HTTP redirects, so old links are forwarded in the browser.
 export default function Page() {
-  return <Discovery />;
+  return <LegacyRedirect to="/events" hashes={{ '#knowledge': '/knowledge/articles', '#events': '/events' }} />;
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import PageHeader from '../components/PageHeader';
 import Timeline from '../components/Timeline';
 import Founder from '../components/Founder';
@@ -104,6 +105,10 @@ function ResearchAndFuture() {
         <div className="flex flex-wrap items-center gap-2 mt-6 text-sm font-bold text-purple-600">
           {['الخدمة المجتمعية', 'تجربة المريضة', 'الرعاية الصحية', 'البحث العلمي'].map((item, i) => <span key={item} className="flex items-center gap-2"><span className="bg-white px-3 py-1.5 rounded-full">{item}</span>{i < 3 && <span className="text-gold-600">+</span>}</span>)}
         </div>
+        <Link href="/impact#research" className="inline-flex items-center gap-2 mt-8 bg-purple-500 text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-purple-600 transition-colors">
+          الأبحاث والمنشورات
+          <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </Link>
       </article>
       <article className={`rounded-3xl bg-gold-50 border border-gold-200 p-8 lg:p-10 reveal-left ${visible ? 'reveal-visible' : ''}`}>
         <span className="text-gold-600 font-bold text-sm">الرؤية المستقبلية</span>

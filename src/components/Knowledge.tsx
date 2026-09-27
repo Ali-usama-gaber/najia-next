@@ -43,7 +43,7 @@ export default function Knowledge() {
         {/* CTA */}
         <div className={`text-center mt-10 reveal-hidden ${grid.visible ? 'reveal-visible' : ''}`} style={{ transitionDelay: '350ms' }}>
           <Link
-            href="/discover#knowledge"
+            href="/knowledge/articles"
             className="inline-flex items-center gap-2 border-2 border-purple-500 text-purple-500 px-8 py-4 rounded-full font-bold text-sm hover:bg-purple-500 hover:text-white transition-all duration-300 group"
           >
             اكتشفي المكتبة

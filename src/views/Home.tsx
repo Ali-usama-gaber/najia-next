@@ -21,7 +21,7 @@ export default function Home() {
       <VoicesPreview />
       <Knowledge />
       <EventsPreview />
-      <Impact />
+      <Impact more />
       <SafeSpaceStrip />
       <Founder />
       <JoinSection />

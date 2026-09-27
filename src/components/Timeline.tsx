@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import OutlineIcon from './OutlineIcon';
-import { eventForTitle } from '../data/events';
+import { eventForTitle, eventHref } from '../data/events';
 
 export type TimelineEvent = {
   year: string;
@@ -162,10 +162,10 @@ export default function Timeline({ showCta = true }: { showCta?: boolean }) {
         {/* CTA */}
         {showCta && <div className={`text-center mt-16 reveal-hidden ${header.visible ? 'reveal-visible' : ''}`} style={{ transitionDelay: '600ms' }}>
           <Link
-            href="/discover#events"
+            href="/events"
             className="inline-flex items-center gap-2 border-2 border-gold-400 text-gold-600 px-8 py-4 rounded-full font-bold text-sm hover:bg-gold-400 hover:text-dark transition-all duration-300 group"
           >
-            كل الملتقيات
+            كل الفعاليات
             <svg className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -245,7 +245,7 @@ function EventContent({ ev, typeColor }: { ev: TimelineEvent; typeColor: string 
       {(() => {
         const page = eventForTitle(ev.title);
         return page ? (
-          <Link href={`/events/${page.slug}`} className="block font-extrabold text-dark text-base mb-1 hover:text-purple-500 underline-offset-4 hover:underline">{ev.title}</Link>
+          <Link href={eventHref(page)} className="block font-extrabold text-dark text-base mb-1 hover:text-purple-500 underline-offset-4 hover:underline">{ev.title}</Link>
         ) : (
           <h3 className="font-extrabold text-dark text-base mb-1">{ev.title}</h3>
         );

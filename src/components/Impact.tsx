@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useCounter } from '../hooks/useCounter';
 
@@ -43,7 +44,7 @@ function CounterCard({
   );
 }
 
-export default function Impact() {
+export default function Impact({ more = false }: { more?: boolean }) {
   const { ref, visible } = useScrollReveal(0.15);
   const header = useScrollReveal(0.1);
 
@@ -105,6 +106,12 @@ export default function Impact() {
             "الرعاية لا تنتهي بانتهاء العلاج"
           </p>
           <div className="w-12 h-0.5 mx-auto mt-6 bg-gold-400" />
+          {more && (
+            <Link href="/impact" className="inline-flex items-center gap-2 mt-10 border-2 border-gold-400 text-gold-200 px-8 py-3.5 rounded-full font-bold text-sm hover:bg-gold-400 hover:text-dark transition-all duration-300">
+              التكريم والإعلام والأبحاث
+              <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </Link>
+          )}
         </div>
       </div>
     </section>

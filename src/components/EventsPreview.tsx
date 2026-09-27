@@ -4,12 +4,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import OutlineIcon from './OutlineIcon';
 import { timelineEvents, type TimelineEvent } from './Timeline';
-import { eventForTitle, type NajiaEvent } from '../data/events';
+import { eventForTitle, eventHref, type NajiaEvent } from '../data/events';
 
 import { asset } from '../lib/asset';
 // Scroll-pinned milestones: the section sticks while scrolling walks through
 // the years ٢٠١٦ → ٢٠٢٦, then the page continues normally. The full editorial
-// timeline lives on عن ناجية and عالم ناجية.
+// timeline lives on عن ناجية.
 type YearStop = { year: string; events: TimelineEvent[]; cover?: NajiaEvent };
 
 const VH_PER_STOP = 28; // scroll budget per year (45 felt sluggish)
@@ -233,7 +233,7 @@ export default function EventsPreview() {
                           {(() => {
                             const page = eventForTitle(event.title);
                             return page ? (
-                              <Link href={`/events/${page.slug}`} className="group/ev flex flex-wrap items-center gap-x-3 gap-y-2 font-extrabold text-dark text-base lg:text-xl leading-snug hover:text-purple-600 transition-colors">
+                              <Link href={eventHref(page)} className="group/ev flex flex-wrap items-center gap-x-3 gap-y-2 font-extrabold text-dark text-base lg:text-xl leading-snug hover:text-purple-600 transition-colors">
                                 <span>{event.title}</span>
                                 {/* A card that leads to a page says so with a real button. */}
                                 <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-purple-500 group-hover/ev:bg-purple-600 px-3.5 py-2 rounded-full whitespace-nowrap shadow-sm shadow-purple-300/40 transition-colors">
@@ -285,10 +285,10 @@ export default function EventsPreview() {
           {/* CTA */}
           <div className="text-center mt-8 lg:mt-10">
             <Link
-              href="/discover#events"
+              href="/events"
               className="inline-flex items-center gap-2 border-2 border-gold-400 text-gold-600 px-8 py-3.5 rounded-full font-bold text-sm hover:bg-gold-400 hover:text-dark transition-all duration-300 group"
             >
-              كل الملتقيات
+              كل الفعاليات
               <svg className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>

@@ -108,8 +108,8 @@ function OtherArticles({ current }: { current: Article }) {
               مقالات <span className="text-purple-500">أخرى</span>
             </h2>
           </div>
-          <Link href="/discover#knowledge" className="inline-flex items-center gap-2 text-purple-500 font-bold text-sm hover:gap-3 transition-all">
-            كل المكتبة
+          <Link href="/knowledge/articles" className="inline-flex items-center gap-2 text-purple-500 font-bold text-sm hover:gap-3 transition-all">
+            كل الأدلة والمقالات
             <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </Link>
         </div>
@@ -134,7 +134,8 @@ export default function ArticlePage({ article }: { article: Article }) {
         subtitle={article.desc}
         crumbs={[
           { label: 'الرئيسية', to: '/' },
-          { label: 'المكتبة', to: '/discover#knowledge' },
+          { label: 'المعرفة', to: '/knowledge' },
+          { label: 'أدلة ومقالات', to: '/knowledge/articles' },
           { label: article.title, to: `/articles/${article.slug}` },
         ]}
       />
