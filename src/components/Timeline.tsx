@@ -104,6 +104,15 @@ export const timelineEvents: TimelineEvent[] = [
     desc: 'عقد من الدعم والتمكين وصناعة الأثر.',
     type: 'milestone',
   },
+  {
+    year: '٢٠٢٦',
+    title: 'الملتقى السادس: «أنا ناجية»',
+    date: '٢١ أكتوبر ٢٠٢٦',
+    time: '٥ – ٩ مساءً',
+    venue: 'فندق فوكو بوابة جدة',
+    desc: 'واعية، مطمئنة، قادرة، منتجة، ملهمة: ملتقى العام العاشر، وفيه أُطلق موقع ناجية.',
+    type: 'event',
+  },
 ];
 
 export default function Timeline({ showCta = true }: { showCta?: boolean }) {

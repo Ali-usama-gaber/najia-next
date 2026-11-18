@@ -26,7 +26,7 @@ npx -y pnpm@10.34.3 start    # next start (after build)
 - `src/components/`: sections and shared UI. `SiteShell.tsx` is the client shell (Nav + keyed `<main className="page-enter">` + Footer, plus scroll-to-top and scroll-to-hash on navigation).
 - `src/hooks/`: `useScrollReveal`, `useCounter`.
 - `public/logo.svg`: site logo, referenced as `'/logo.svg'`.
-- `public/robots.txt`: disallows all crawlers, same as the original site (which is also `noindex, nofollow`).
+- `public/robots.txt` + `public/sitemap.xml` + `public/.htaccess`: copied from the live najiahub.com deploy (site is indexable). `.htaccess` holds the legacy redirects and lowercase rules for Hostinger.
 - `src/proxy.ts`: redirects mixed-case page paths (e.g. `/About`) to their lowercase route. The old router matched paths case-insensitively.
 - `next.config.ts`: legacy redirects for local dev/build (`/resources` → `/knowledge/articles`, `/media` → `/impact`, `/stories` and `/creative` → `/community#stories`). The GitHub Pages export (`PAGES=1`) has no redirects.
 - `src/data/`: `events.ts` (gatherings + recognitions), `knowledge.ts` (articles), `videos.ts` (topic clips in `public/videos/`), `impact.ts` + `press.ts` (recognition, media, press, research). Sources are named in text; the site has no outbound links except the footer YouTube icon, and every video is hosted in `public/`.

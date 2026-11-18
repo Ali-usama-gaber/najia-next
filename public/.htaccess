@@ -1,0 +1,32 @@
+# Apache/LiteSpeed rules for the najiahub.com static export (Hostinger).
+# Ignored by GitHub Pages.
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+Options -Indexes
+
+RewriteEngine On
+RewriteBase /
+
+# Old test deploy at /next/ -> site root
+RewriteRule ^next(/.*)?$ /$1 [R=301,L]
+
+# Legacy paths from the old site (same as redirects() in next.config.ts)
+RewriteRule ^resources/?$ /knowledge/articles/ [R=302,L,NC]
+RewriteRule ^media/?$ /impact/ [R=302,L,NC]
+RewriteRule ^(stories|creative)/?$ /community/#stories [R=302,L,NC,NE]
+
+# Mixed-case page URLs -> lowercase (replaces src/proxy.ts, which can't run on static hosting)
+RewriteCond %{REQUEST_URI} [A-Z]
+RewriteRule ^about/?$ /about/ [R=301,L,NC]
+RewriteCond %{REQUEST_URI} [A-Z]
+RewriteRule ^community/?$ /community/ [R=301,L,NC]
+RewriteCond %{REQUEST_URI} [A-Z]
+RewriteRule ^events/?$ /events/ [R=301,L,NC]
+RewriteCond %{REQUEST_URI} [A-Z]
+RewriteRule ^impact/?$ /impact/ [R=301,L,NC]
+RewriteCond %{REQUEST_URI} [A-Z]
+RewriteRule ^discover/?$ /discover/ [R=301,L,NC]
+RewriteCond %{REQUEST_URI} [A-Z]
+RewriteRule ^join/?$ /join/ [R=301,L,NC]
+RewriteCond %{REQUEST_URI} [A-Z]
+RewriteRule ^get-involved/?$ /get-involved/ [R=301,L,NC]

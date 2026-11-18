@@ -17,23 +17,35 @@ const programs: { title: string; desc: string; icon: IconName }[] = [
   { title: 'مبادرات الوقاية والكشف المبكر', desc: 'برامج توعية تمتد إلى خارج المجتمع، للعائلات والمجتمع الأوسع.', icon: 'shield' },
 ];
 
-function UpcomingSection() {
+// The latest gathering, featured above the archive.
+function LatestSection() {
   const { ref, visible } = useScrollReveal(0.1);
+  const latest = gatherings[gatherings.length - 1];
+  if (!latest) return null;
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div ref={ref} className={`reveal-hidden ${visible ? 'reveal-visible' : ''}`}>
-          <div className="bg-gradient-to-br from-gold-50 to-gold-100 border border-gold-200 rounded-2xl p-8 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="max-w-2xl">
-              <div className="text-gold-600 font-extrabold text-2xl mb-2">٢٠٢٦</div>
-              <h3 className="font-extrabold text-dark text-xl lg:text-2xl leading-snug mb-3">عشر سنوات ناجية</h3>
-              <p className="text-mid leading-loose">يوافق هذا العام مرور عشر سنوات على تأسيس مجتمع ناجية. تفاصيل الملتقى وموعده وطريقة التسجيل ستُعلن هنا.</p>
-            </div>
-            <Link href="/get-involved#other" className="inline-flex items-center justify-center bg-gold-400 text-dark px-8 py-4 rounded-full font-bold text-sm hover:bg-gold-500 transition-colors whitespace-nowrap">
-              سجّلي اهتمامك
-            </Link>
-          </div>
-        </div>
+        <Link
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          href={`/events/${latest.slug}`}
+          className={`group grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] overflow-hidden rounded-[1.75rem] bg-dark hover:shadow-2xl hover:shadow-purple-200/50 transition-shadow reveal-hidden ${visible ? 'reveal-visible' : ''}`}
+        >
+          <span className="relative block aspect-[16/10] lg:aspect-auto lg:min-h-[22rem] overflow-hidden">
+            <img src={asset(latest.hero ?? latest.cover)} alt={`من ${latest.fullTitle}`} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          </span>
+          <span className="p-8 lg:p-10 flex flex-col justify-center">
+            <span className="text-gold-200 font-bold text-sm mb-2">أحدث ملتقى · {latest.year}</span>
+            <span className="block text-white font-extrabold text-2xl lg:text-3xl leading-snug mb-3">{latest.fullTitle}</span>
+            <span className="block text-purple-200 leading-loose mb-6">{latest.summary}</span>
+            <span className="flex flex-wrap gap-2 mb-7 text-sm">
+              {[latest.date, latest.venue].filter(Boolean).map((t) => <span key={t} className="bg-white/10 text-white px-3.5 py-1.5 rounded-full font-semibold">{t}</span>)}
+            </span>
+            <span className="self-start inline-flex items-center gap-2 bg-gold-400 text-dark px-7 py-3.5 rounded-full font-bold text-sm group-hover:bg-gold-300 transition-colors">
+              {latest.sessions?.length ? 'شاهدي فقرات الملتقى' : 'صفحة الفعالية'}
+              <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </span>
+          </span>
+        </Link>
       </div>
     </section>
   );
@@ -67,7 +79,12 @@ function EventCard({ event }: { event: NajiaEvent }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-transparent to-transparent" />
         <span className="absolute top-4 right-4 bg-gold-400 text-dark text-xs font-bold px-3 py-1 rounded-full">{event.year}</span>
-        {event.videos && event.videos.length > 0 && (
+        {event.sessions && event.sessions.length > 0 ? (
+          <span className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 bg-white/90 text-purple-600 text-xs font-bold px-3 py-1.5 rounded-full">
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" /></svg>
+            {event.sessions.length.toLocaleString('ar-SA')} فقرة مصوّرة
+          </span>
+        ) : event.videos && event.videos.length > 0 && (
           <span className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 bg-white/90 text-purple-600 text-xs font-bold px-3 py-1.5 rounded-full">
             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" /></svg>
             {event.videos.length === 1 ? 'فيديو' : event.videos.length === 2 ? 'فيديوهان' : `${event.videos.length.toLocaleString('ar-SA')} فيديوهات`}
@@ -182,7 +199,7 @@ function ProgramsSection() {
 export default function EventsPage() {
   return <>
     <PageHeader title="فعاليات" highlight="ناجية" subtitle="ملتقى سنوي يجمع الناجيات وعائلاتهن والمتخصصين، ولقاءات وورش تمتد على مدار العام — حضوريًا وافتراضيًا." crumbs={[{ label: 'الرئيسية', to: '/' }, { label: 'الفعاليات', to: '/events' }]} />
-    <UpcomingSection />
+    <LatestSection />
     <EventsArchive />
     <ProgramsSection />
     <JoinSection />

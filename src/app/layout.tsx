@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   description:
     'مجتمع عربي آمن للناجيات من سرطان الثدي منذ ٢٠١٦: دعم متبادل، ومعرفة موثوقة، وتمكين يعيد للناجية دورها في أسرتها ومجتمعها وعملها — لأن الرعاية لا تنتهي بانتهاء العلاج.',
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   openGraph: {
     title: 'مجتمع ناجية',

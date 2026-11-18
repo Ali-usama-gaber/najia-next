@@ -14,6 +14,9 @@ export type EventVideo = {
 
 export type EventPhoto = { src: string; caption: string };
 
+// فقرة مسجّلة من الفعالية: مقطع من التسجيل الكامل مع المتحدث وموضوعه.
+export type EventSession = { slug: string; title: string; speaker?: string; desc?: string; duration: string; src: string; poster: string };
+
 export type ProgramItem = { day?: string; time: string; title: string; speaker?: string };
 
 export type EventSource = {
@@ -45,6 +48,7 @@ export type NajiaEvent = {
   program?: ProgramItem[];
   agendaImages?: EventPhoto[];
   videos?: EventVideo[];
+  sessions?: EventSession[]; // التسجيل الكامل مقسّمًا فقرات
   photos?: EventPhoto[];
   sources?: EventSource[];
   notes?: string; // ملاحظة عن حالة المعلومة إن لزم
@@ -387,6 +391,62 @@ export const najiaEvents: NajiaEvent[] = [
       { title: 'خبر عن إطلاق الملتقى بالتعاون مع الجمعية العلمية السعودية للطب الباطني', url: 'https://alraynews.net/6723932.htm', publisher: 'صحيفة الرأي الإلكترونية', date: '٦ أكتوبر ٢٠٢٥', kind: 'news' },
       { title: 'خبر عن ملتقى ناجية السنوي وبرنامجه', url: 'https://wakebeconomic.com/779945', publisher: 'صحيفة واكب الإلكترونية', date: '٣٠ سبتمبر ٢٠٢٥', kind: 'news' },
       { title: 'خبر عن ملتقى ناجية السنوي تزامنًا مع شهر التوعية بسرطان الثدي', url: 'https://annahar-news.com/news/single/26961', publisher: 'صحيفة النهار', date: '٣٠ سبتمبر ٢٠٢٥', kind: 'news' },
+    ],
+  },
+  {
+    slug: 'ana-najia-2026',
+    title: 'أنا ناجية: واعية، مطمئنة، قادرة، منتجة، ملهمة',
+    aliases: ['الملتقى السادس', 'عشر سنوات ناجية', 'أنا ناجية'],
+    fullTitle: 'الملتقى السادس لمجتمع ناجية: «أنا ناجية: واعية، مطمئنة، قادرة، منتجة، ملهمة»',
+    kind: 'ملتقى',
+    year: '٢٠٢٦',
+    date: 'الأربعاء ٢١ أكتوبر ٢٠٢٦',
+    time: '٥ – ٩ مساءً',
+    venue: 'فندق فوكو بوابة جدة',
+    summary: 'الملتقى السادس لمجتمع ناجية، في عامه العاشر: يوم من المعرفة الطبية والحوار والحركة، احتفاءً بعشر سنوات من ناجية.',
+    details: [
+      'أُقيم الملتقى السادس لمجتمع ناجية بالتعاون مع الجمعية العلمية السعودية للطب الباطني، تزامنًا مع مرور عشر سنوات على انطلاق المجتمع عام ٢٠١٦.',
+      'جاء شعار «أنا ناجية: واعية، مطمئنة، قادرة، منتجة، ملهمة» امتدادًا لفكرة أن التعافي لا يقف عند انتهاء العلاج: الوعي يقود إلى الاطمئنان، والاطمئنان إلى القدرة، ثم الإنتاج والإلهام.',
+      'تناول البرنامج العناية بالشعر والبشرة، والعلاجات المضافة للعلاج الهرموني، وأعراض انقطاع الطمث، والحركة والنشاط البدني، والتغذية وإدارة الوزن، مع مساحات لأسئلة الحضور، واختُتم بمعرض «ناجية منتجة / مبدعة».',
+      'وفي كلمة الختام أعلنت أ.د. أطلال أبوسند إطلاق الموقع الإلكتروني لمجتمع ناجية، وذكرت أن هذا الملتقى هو الأول الذي يُصوَّر كاملًا ليبقى متاحًا للسيدات.',
+      'وشهد الملتقى توقيع مذكرة تفاهم بين مجتمع ناجية وشركة سجا، قدّمت لها أ.د. أطلال أبوسند الشكر في كلمتها.',
+    ],
+    cover: '/events/ana-najia-2026/cover.jpg',
+    hero: '/events/ana-najia-2026/hero.jpg',
+    partners: [SSIM],
+    sponsors: ['أسترازينيكا', 'نوفارتس', 'ليلي', 'جلعاد', 'بيوديرما'],
+    sessions: [
+      { slug: '01-opening', title: 'كلمة الافتتاح: عشر سنوات من ناجية', speaker: 'أ.د. أطلال أبوسند', desc: 'عشر سنوات على انطلاق ناجية، وشعار الملتقى بأعمدته الخمسة: واعية، مطمئنة، قادرة، منتجة، ملهمة.', duration: '٣:٢٣', src: '/events/ana-najia-2026/01-opening.mp4', poster: '/events/ana-najia-2026/01-opening.jpg' },
+      { slug: '02-hair-skin', title: 'العناية بالشعر والبشرة والأظافر مع العلاج وبعده', speaker: 'د. رحاب الحربي', desc: 'الأعراض الجانبية للعلاج على الشعر والبشرة والأظافر، ولماذا تختلف من سيدة لأخرى، وما الذي يخفّفها.', duration: '٢٢:٣٦', src: '/events/ana-najia-2026/02-hair-skin.mp4', poster: '/events/ana-najia-2026/02-hair-skin.jpg' },
+      { slug: '03-hair-skin-qa', title: 'أسئلة الحضور: الجلد والشعر والإجراءات التجميلية', speaker: 'د. رحاب الحربي', desc: 'إجابات عن أسئلة الناجيات حول جفاف الجلد والأظافر والإجراءات التجميلية بعد التعافي.', duration: '١٠:٥٦', src: '/events/ana-najia-2026/03-hair-skin-qa.mp4', poster: '/events/ana-najia-2026/03-hair-skin-qa.jpg' },
+      { slug: '04-adjuvant-hormonal', title: 'العلاجات المحفّزة المضافة للعلاج الهرموني', speaker: 'د. ملاك الحربي', desc: 'كيف تقوّي أثر العلاج الهرموني وتقلّل خطر عودة المرض، ولمن تُضاف.', duration: '٣:٥٠', src: '/events/ana-najia-2026/04-adjuvant-hormonal.mp4', poster: '/events/ana-najia-2026/04-adjuvant-hormonal.jpg' },
+      { slug: '05-menopause', title: 'أعراض انقطاع الطمث مع العلاج الهرموني', speaker: 'د. وديان بزناده', desc: 'الأعراض المصاحبة للعلاجات الهرمونية وكيف نتعامل معها: الحركة، والنوم، والتغذية.', duration: '٨:٣٦', src: '/events/ana-najia-2026/05-menopause.mp4', poster: '/events/ana-najia-2026/05-menopause.jpg' },
+      { slug: '06-panel', title: 'جلسة حوارية وأسئلة مفتوحة', speaker: 'د. وديان بزناده · د. ملاك الحربي · د. محمد ناصر', desc: 'أسئلة الحضور عن العلاجات الموضعية، وترميم الثدي، والفيتامينات، والرياضة.', duration: '٢٢:٢٩', src: '/events/ana-najia-2026/06-panel.mp4', poster: '/events/ana-najia-2026/06-panel.jpg' },
+      { slug: '07-movement', title: 'الحركة بركة: تمارين مع الحضور', speaker: 'د. براء رجب', desc: 'جلسة حركة وتمارين عملية شاركت فيها الحاضرات من أماكنهن.', duration: '١١:٢٥', src: '/events/ana-najia-2026/07-movement.mp4', poster: '/events/ana-najia-2026/07-movement.jpg' },
+      { slug: '08-nutrition-weight', title: 'الوزن والتغذية بعد العلاج', speaker: 'د. هلا موصلي', desc: 'إدارة الوزن بعد العلاج: الأكل الصحي، والبروتين، والحديد، والغدة، وشرب الماء.', duration: '٣٠:٤٢', src: '/events/ana-najia-2026/08-nutrition-weight.mp4', poster: '/events/ana-najia-2026/08-nutrition-weight.jpg' },
+      { slug: '09-closing', title: 'كلمة الختام وإطلاق موقع ناجية', speaker: 'أ.د. أطلال أبوسند', desc: 'من مجموعة واتساب عام ٢٠١٦ إلى مجتمع، وتسجيل ناجية ملكيةً فكرية، وإطلاق الموقع الإلكتروني، ومعرض ناجية منتجة.', duration: '٥:٥٠', src: '/events/ana-najia-2026/09-closing.mp4', poster: '/events/ana-najia-2026/09-closing.jpg' },
+      { slug: '10-honoring', title: 'مذكرة التفاهم وتكريم المتحدثين والشركاء', speaker: 'أ.د. أطلال أبوسند', desc: 'توقيع مذكرة تفاهم مع شركة سجا، ثم شكر وتكريم المتحدثات والمتحدثين والجهات الداعمة للملتقى.', duration: '٥:٣٢', src: '/events/ana-najia-2026/10-honoring.mp4', poster: '/events/ana-najia-2026/10-honoring.jpg' },
+      { slug: '11-ten-years-corner', title: 'ركن «عشر سنوات ناجية»', speaker: 'عضوات مجتمع ناجية', desc: 'جولة في معرض ناجية منتجة، ثم كلمات وتجارب من الحاضرات في ركن العشر سنوات.', duration: '٣٠:٥٠', src: '/events/ana-najia-2026/11-ten-years-corner.mp4', poster: '/events/ana-najia-2026/11-ten-years-corner.jpg' },
+    ],
+    photos: [
+      { src: '/events/ana-najia-2026/photo-1.jpg', caption: 'لافتة الترحيب عند مدخل الملتقى.' },
+      { src: '/events/ana-najia-2026/photo-2.jpg', caption: 'القاعة مجهّزة قبل بدء الملتقى، وشاشة الترحيب في صدرها.' },
+      { src: '/events/ana-najia-2026/photo-3.jpg', caption: 'الترحيب بالحضور أمام شاشة «الملتقى السادس لمجتمع ناجية».' },
+      { src: '/events/ana-najia-2026/photo-4.jpg', caption: 'كلمة على المسرح أمام شعار «أنا ناجية» وموعد الملتقى ومكانه.' },
+      { src: '/events/ana-najia-2026/photo-5.jpg', caption: 'شريحة تعرض أرقام المجتمع: أكثر من ٩٠٠ مستفيد حضوري، ونحو ٣٠٠ عضوة أساسية.' },
+      { src: '/events/ana-najia-2026/photo-6.jpg', caption: 'د. وديان بزناده خلال حديثها عن أعراض انقطاع الطمث.' },
+      { src: '/events/ana-najia-2026/photo-7.jpg', caption: 'محاضرة «العلاجات المحفّزة المضافة للعلاج الهرموني».' },
+      { src: '/events/ana-najia-2026/photo-8.jpg', caption: 'الجلسة الحوارية أمام شاشة «شركاء النجاح».' },
+      { src: '/events/ana-najia-2026/photo-9.jpg', caption: 'جلسة «الحركة بركة» بين طاولات الحاضرات.' },
+      { src: '/events/ana-najia-2026/photo-10.jpg', caption: 'الحاضرات يتابعن فقرات الملتقى.' },
+      { src: '/events/ana-najia-2026/photo-11.jpg', caption: 'تسليم شهادات التكريم على المسرح.' },
+      { src: '/events/ana-najia-2026/photo-12.jpg', caption: 'تكريم أحد الشركاء.' },
+      { src: '/events/ana-najia-2026/photo-13.jpg', caption: 'توقيع مذكرة تفاهم بين مجتمع ناجية وشركة سجا على المسرح.' },
+      { src: '/events/ana-najia-2026/photo-14.jpg', caption: 'الزائرات بين طاولات معرض «ناجية منتجة».' },
+      { src: '/events/ana-najia-2026/photo-15.jpg', caption: 'من معرض «ناجية منتجة»: طاولة خديجه ابراهيم.' },
+      { src: '/events/ana-najia-2026/photo-16.jpg', caption: 'من معرض «ناجية منتجة»: طاولة عيوش العولقي.' },
+      { src: '/events/ana-najia-2026/photo-17.jpg', caption: 'من معرض «ناجية منتجة»: منتجات «مونة».' },
+      { src: '/events/ana-najia-2026/photo-18.jpg', caption: 'ركن «عشر سنوات ناجية» حيث روت الحاضرات تجاربهن.' },
     ],
   },
 ];

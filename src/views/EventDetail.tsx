@@ -6,6 +6,7 @@ import JoinSection from '../components/Join';
 import OutlineIcon, { type IconName } from '../components/OutlineIcon';
 import { gatherings, type EventPhoto, type NajiaEvent, type ProgramItem } from '../data/events';
 import ImpactCard from '../components/ImpactCard';
+import ClipPlaylist from '../components/ClipPlaylist';
 import { impactForEvent } from '../data/impact';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
@@ -133,6 +134,7 @@ function Hero({ event }: { event: NajiaEvent }) {
 function Overview({ event }: { event: NajiaEvent }) {
   const { ref, visible } = useScrollReveal(0.12);
   const jump = [
+    event.sessions?.length ? { id: 'sessions', label: 'فقرات الملتقى' } : null,
     event.program?.length || event.agendaImages?.length ? { id: 'program', label: 'برنامج اليوم' } : null,
     event.videos?.length ? { id: 'videos', label: 'الفيديوهات' } : null,
     event.photos?.length ? { id: 'photos', label: 'الصور' } : null,
@@ -374,11 +376,33 @@ function PrevNext({ event }: { event: NajiaEvent }) {
   );
 }
 
+// The full recording, cut into its sessions, played in place with a playlist.
+function Sessions({ event }: { event: NajiaEvent }) {
+  const sessions = event.sessions ?? [];
+  if (!sessions.length) return null;
+  return (
+    <section className="py-16 lg:py-20 bg-dark">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="mb-8 max-w-3xl">
+          <h2 id="sessions" className="scroll-mt-28 text-2xl lg:text-3xl font-extrabold text-white mb-3">فقرات <span className="text-gold-200">الملتقى</span></h2>
+          <p className="text-purple-200 leading-loose">التسجيل الكامل للملتقى مقسّمًا فقرةً فقرة. اختاري الفقرة من القائمة، وتنتقل كل فقرة إلى التي تليها تلقائيًا.</p>
+        </div>
+        <ClipPlaylist
+          heading="الفقرات"
+          unit="الفقرة"
+          clips={sessions.map((s) => ({ slug: s.slug, title: s.title, meta: [s.speaker, s.duration].filter(Boolean).join(' · '), desc: s.desc, src: s.src, poster: s.poster }))}
+        />
+      </div>
+    </section>
+  );
+}
+
 export default function EventDetail({ event }: { event: NajiaEvent }) {
   return (
     <>
       <Hero event={event} />
       <Overview event={event} />
+      <Sessions event={event} />
       <Program event={event} />
       <Videos event={event} />
       <Photos event={event} />
